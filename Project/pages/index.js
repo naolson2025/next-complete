@@ -15,6 +15,7 @@ export async function getStaticProps() {
     props: {
       featuredEvents: await getFeaturedEvents()
     },
+    // rebuilds the page every 30 minutes
     revalidate: 1800
   }
 }

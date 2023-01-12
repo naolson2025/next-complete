@@ -1,20 +1,28 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 
 import CommentList from './comment-list';
 import NewComment from './new-comment';
 import classes from './comments.module.css';
+import NotificationContext from '../../store/notification-context';
 
 function Comments(props) {
   const { eventId } = props;
 
+  const notificationCtx = useContext(NotificationContext);
+
   const [showComments, setShowComments] = useState(false);
   const [comments, setComments] = useState([]);
+  const [isFetchingComments, setIsFetchingComments] = useState(false);
 
   useEffect(() => {
     if (showComments) {
+      setIsFetchingComments(true);
       fetch(`/api/comments/${eventId}`)
         .then((res) => res.json())
-        .then((data) => setComments(data.comments));
+        .then((data) => {
+          setComments(data.comments);
+          setIsFetchingComments(false);
+        });
     }
   }, [showComments]);
 
@@ -23,6 +31,12 @@ function Comments(props) {
   }
 
   function addCommentHandler(commentData) {
+    notificationCtx.showNotification({
+      title: 'Sending comment...',
+      message: 'Your comment is currently being stored into a database.',
+      status: 'pending',
+    });
+
     // send data to API
     fetch(`/api/comments/${eventId}`, {
       method: 'POST',
@@ -30,8 +44,33 @@ function Comments(props) {
       headers: {
         'Content-Type': 'application/json',
       },
-    }).then((res) => res.json())
-      .then((data) => console.log(data));
+    }).then((res) => {
+      if (res.ok) {
+        return res.json();
+      }
+      return res.json().then((data) => {
+        // show error notification
+        notificationCtx.showNotification({
+          title: 'Error!',
+          message: data.message || 'Something went wrong!',
+          status: 'error',
+        });
+      });
+    })
+      .then((data) => {
+        notificationCtx.showNotification({
+          title: 'Success!',
+          message: 'Your comment was saved!',
+          status: 'success',
+        });
+      })
+      .catch((err) => {
+        notificationCtx.showNotification({
+          title: 'Error!',
+          message: err.message || 'Something went wrong!',
+          status: 'error',
+        });
+      });
   }
 
   return (
@@ -40,7 +79,8 @@ function Comments(props) {
         {showComments ? 'Hide' : 'Show'} Comments
       </button>
       {showComments && <NewComment onAddComment={addCommentHandler} />}
-      {showComments && <CommentList items={comments} />}
+      {showComments && !isFetchingComments && <CommentList items={comments} />}
+      {showComments && isFetchingComments && <p>Loading...</p>}
     </section>
   );
 }

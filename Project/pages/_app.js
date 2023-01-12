@@ -1,6 +1,7 @@
 import Layout from '../components/layout/layout';
 import '../styles/globals.css';
 import Head from 'next/head';
+import { NotificationContextProvider } from '../store/notification-context';
 
 // this Head tag will be applied to all pages
 // the initial-scale=1.0, width=device-width is for mobile responsiveness
@@ -8,13 +9,15 @@ import Head from 'next/head';
 // the title here will apply to all pages, unless overwritten by a page
 function MyApp({ Component, pageProps }) {
   return (
-    <Layout>
-      <Head>
-        <title>NextJS Events</title>
-        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-      </Head>
-      <Component {...pageProps} />
-    </Layout>
+    <NotificationContextProvider>
+      <Layout>
+        <Head>
+          <title>NextJS Events</title>
+          <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+        </Head>
+        <Component {...pageProps} />
+      </Layout>
+    </NotificationContextProvider>
   );
 }
 

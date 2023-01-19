@@ -5,7 +5,6 @@ image: getting-started-nextjs.jpg
 excerpt: A quick guide to get you started with Next.js here is a bunch more text to see if word wrap is working
 isFeatured: true
 ---
-<!-- The section above is yaml -->
 
 # This is a title
 

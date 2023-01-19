@@ -3,26 +3,24 @@ import ReactMarkdown from 'react-markdown';
 import PostHeader from './post-header';
 import classes from './post-content.module.css';
 
-const DUMMY_POST = {
-  slug: 'getting-started-with-nextjs',
-  title: 'Getting Started with NextJS',
-  image: 'getting-started-nextjs.jpg',
-  date: '2022-02-10',
-  // the content is written in markdown and then converted to JSX
-  content: '# This is a first post',
-}
+// our post content is read from a markdown file
+// stored in our root level posts directory.
+// we are not using a database to store our posts
+// the benefit of markdown is that it is easy to write
+// and its automatically converted to HTML
+function PostContent(props) {
+  const { post } = props;
 
-function PostContent() {
-  const imagePath = `/images/posts/${DUMMY_POST.slug}/${DUMMY_POST.image}`;
+  const imagePath = `/images/posts/${post.slug}/${post.image}`;
 
   return (
     <article className={classes.content}>
-      <PostHeader title={DUMMY_POST.title} image={imagePath} />
+      <PostHeader title={post.title} image={imagePath} />
       {/* 
         The content is markdown and the ReactMarkdown converts
         it to JSX
       */}
-      <ReactMarkdown>{DUMMY_POST.content}</ReactMarkdown>
+      <ReactMarkdown>{post.content}</ReactMarkdown>
     </article>
   );
 }

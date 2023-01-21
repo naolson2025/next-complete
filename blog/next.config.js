@@ -18,6 +18,9 @@ module.exports = (phase) => {
   if (phase === PHASE_DEVELOPMENT_SERVER) {
     return {
       env: {
+        // putting the whole connection string here
+        // for simplicity
+        MONGO_URI: process.env.MONGO_URI,
         mongodb_username: process.env.MONGODB_USERNAME,
         mongodb_password: process.env.MONGODB_PASSWORD,
         mongodb_clustername: process.env.MONGODB_CLUSTERNAME,
@@ -31,6 +34,7 @@ module.exports = (phase) => {
 
   return {
     env: {
+      MONGO_URI: process.env.MONGO_URI,
       mongodb_username: process.env.MONGODB_USERNAME,
       mongodb_password: process.env.MONGODB_PASSWORD,
       mongodb_clustername: process.env.MONGODB_CLUSTERNAME,

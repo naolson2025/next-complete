@@ -25,7 +25,7 @@ async function handler(req, res) {
 
     // these env variables are set in next.config.js
     // const connectionString = `mongodb+srv://${process.env.mongodb_username}:${process.env.mongodb_password}@${process.env.mongodb_clustername}.mongodb.net/${process.env.mongodb_database}?retryWrites=true&w=majority`;
-
+    console.log(process.env.MONGO_URI);
     let client;
     try {
       client = await MongoClient.connect(process.env.MONGO_URI)

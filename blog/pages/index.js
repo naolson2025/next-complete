@@ -4,7 +4,7 @@
 // The design of the page is done in the components
 import Head from 'next/head';
 import Hero from '../components/home-page/Hero';
-import FeaturedPosts from '../components/home-page/featured-posts';
+import FeaturedPosts from '../components/home-page/Featured-posts';
 import { getFeaturedPosts } from '../lib/posts-util';
 
 function HomePage(props) {

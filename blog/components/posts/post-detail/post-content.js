@@ -3,8 +3,18 @@ import ReactMarkdown from 'react-markdown';
 import PostHeader from './post-header';
 import classes from './post-content.module.css';
 import Image from 'next/image';
+// the react-syntax-highlighter package is a great way to add syntax highlighting to code blocks
+// but its also a large package
+// so we import PrismLight which is a subset of the package
 import { PrismLight as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { atomDark } from 'react-syntax-highlighter/dist/cjs/styles/prism';
+// only import atomDark to reduce bundle size
+import atomDark from 'react-syntax-highlighter/dist/cjs/styles/prism/atom-dark';
+// be default the react-syntax-highlighter package will import
+// all of the languages
+// here we only import the javascript language, to reduce bundle size
+import js from 'react-syntax-highlighter/dist/cjs/languages/prism/javascript';
+// registrer only js, to reduce bundle size
+SyntaxHighlighter.registerLanguage('js', js);
 
 // our post content is read from a markdown file
 // stored in our root level posts directory.
